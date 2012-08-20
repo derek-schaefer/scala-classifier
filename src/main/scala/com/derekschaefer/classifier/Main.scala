@@ -10,7 +10,7 @@ object Main {
     val cls = new Classifier
     val Train = """([^:]+):(.+)""".r
 
-    println("Enter training data (i.e. category:text)\n")
+    println("Enter training data (i.e. category:text):\n")
 
     read(l => {
       l match {
@@ -18,15 +18,15 @@ object Main {
           println("Training: " + c + " -> " + t)
           cls.train(c, t)
         }
-        case _ => println("Invalid format, please try again.\n")
+        case _ => println("Invalid format, please try again.")
       }
     })
 
-    println("\nNow classify some strings\n")
+    println("\nNow classify some strings:\n")
 
-    read(l => println(l + " = " + cls.classify(l)))
+    read(l => println(">> " + cls.classify(l)))
 
-    println("\nDone.")
+    println("Done.")
   }
 
 }
