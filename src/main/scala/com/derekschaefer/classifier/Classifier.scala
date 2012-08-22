@@ -36,9 +36,7 @@ class Classifier(val _lang: String) {
   }
 
   private def documentProb(category: String, text: String): Double = {
-    var prob = 1.0
-    _tk.eachWord(text).foreach(prob *= wordWeightedAvg(category, _))
-    prob
+    _tk.eachWord(text).map(wordWeightedAvg(category, _)).foldLeft(1.0)(_ * _)
   }
 
   private def categoryScores(text: String) {
@@ -56,13 +54,7 @@ class Classifier(val _lang: String) {
     val weight = 1.0
     val assumed_prob = 0.5
     val basic_prob = wordProb(category, word)
-    var totals = 0
-    _ccount.foreach(cat =>
-      _wcount.get(cat._1, word) match {
-        case Some(v) => totals += v
-        case None    =>
-      }
-    )
+    val totals = _ccount.map(c => _wcount.getOrElse((c._1, word), 0)).foldLeft(0)(_ + _)
     (weight * assumed_prob + totals * basic_prob) / (weight + totals)
   }
 
