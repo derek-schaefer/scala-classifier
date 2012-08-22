@@ -51,9 +51,7 @@ class Classifier(val _lang: String) {
   }
 
   private def wordWeightedAvg(category: String, word: String): Double = {
-    val weight = 1.0
-    val assumed_prob = 0.5
-    val basic_prob = wordProb(category, word)
+    val (weight, assumed_prob, basic_prob) = (1.0, 0.5, wordProb(category, word))
     val totals = _ccount.map(c => _wcount.getOrElse((c._1, word), 0)).foldLeft(0)(_ + _)
     (weight * assumed_prob + totals * basic_prob) / (weight + totals)
   }
